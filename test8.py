@@ -1,8 +1,3 @@
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-
-
 import os
 import streamlit as st
 import pandas as pd
@@ -17,7 +12,9 @@ from langchain_community.chat_message_histories.streamlit import StreamlitChatMe
 from langchain_core.documents import Document
 from openai import OpenAI
 
-
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 #Chroma tenant 오류 방지 위한 코드
 import chromadb
