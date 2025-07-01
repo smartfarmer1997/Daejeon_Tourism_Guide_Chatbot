@@ -103,7 +103,7 @@ option = st.selectbox("Select GPT Model", ("gpt-4o-mini", "gpt-3.5-turbo-0125"))
 
 
 # 로컬 폴더 경로 설정
-FOLDER_PATH = r"C:\Users\김경호\Desktop\데싸4기 자료\6월30,31,1,2일_랭체인톤\작동코드\data"
+FOLDER_PATH = "data"
 
 if os.path.exists(FOLDER_PATH):
     with st.spinner("데이터를 불러오는 중입니다..."):
