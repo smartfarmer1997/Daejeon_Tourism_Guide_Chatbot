@@ -1,0 +1,10 @@
+streamlit
+pandas
+openai
+langchain
+langchain-community
+langchain-core
+langchain-openai
+langchain-chroma
+chromadb
+pysqlite3-binary
