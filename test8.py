@@ -1,3 +1,8 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+
 import os
 import streamlit as st
 import pandas as pd
@@ -18,9 +23,6 @@ from openai import OpenAI
 import chromadb
 chromadb.api.client.SharedSystemClient.clear_system_cache()
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 from langchain_chroma import Chroma
 
