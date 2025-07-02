@@ -21,9 +21,11 @@ from openai import OpenAI
 import chromadb
 chromadb.api.client.SharedSystemClient.clear_system_cache()
 
-from langchain_chroma import Chroma
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysplite3')
 
-from chromadb.config import Settings
+from langchain_chroma import Chroma
 
 # 오픈AI API 키 설정
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
