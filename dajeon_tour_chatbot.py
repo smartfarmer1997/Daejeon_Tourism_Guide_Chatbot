@@ -8,7 +8,8 @@ import sqlite3
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain.vectorstores import Chroma
+# from langchain.vectorstores import Chroma
+from langchain.vectorstores import FAISS
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
@@ -84,25 +85,17 @@ def create_vector_store(_docs, persist_directory):
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     split_docs = splitter.split_documents(_docs)
 
-    client_settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_directory)
-
-    vectorstore = Chroma.from_documents(
+    vectorstore = FAISS.from_documents(
         split_docs,
-        OpenAIEmbeddings(model="text-embedding-3-small"),
-        persist_directory=persist_directory,
-        client_settings=client_settings
+        OpenAIEmbeddings(model="text-embedding-3-small")
     )
+    # 저장도 가능
+    vectorstore.save_local(persist_directory)
     return vectorstore
 
 def get_vector_store(_docs, persist_directory):
-    client_settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_directory)
-
     if os.path.exists(persist_directory):
-        return Chroma(
-            persist_directory=persist_directory,
-            embedding_function=OpenAIEmbeddings(model="text-embedding-3-small"),
-            client_settings=client_settings  # ✅ 반드시 포함
-        )
+        return FAISS.load_local(persist_directory, OpenAIEmbeddings(model="text-embedding-3-small"))
     else:
         return create_vector_store(_docs, persist_directory)
 
