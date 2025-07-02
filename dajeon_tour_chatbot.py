@@ -32,7 +32,7 @@ with st.sidebar:
 
 # 📄 PDF 로딩 및 벡터 디렉토리 지정
 if uploaded_pdf:
-    temp_path = os.path.join("./data", uploaded_pdf.name)
+    temp_path = os.path.join("data", uploaded_pdf.name)
     with open(temp_path, "wb") as f:
         f.write(uploaded_pdf.getvalue())
     pdf_loader = PyPDFLoader(temp_path)
@@ -40,7 +40,7 @@ if uploaded_pdf:
     file_key = uploaded_pdf.name.replace(".pdf", "").replace(" ", "_")
     persist_directory = f"./chroma_db_{file_key}"
 else:
-    default_pdf_path = os.path.join("./data", "꿀잼도시대전가이드북_웹배포용.pdf")
+    default_pdf_path = os.path.join("data", "꿀잼도시대전가이드북_웹배포용.pdf")
     pdf_loader = PyPDFLoader(default_pdf_path)
     pdf_docs = pdf_loader.load()
     persist_directory = "./chroma_db_default"
@@ -67,7 +67,7 @@ def load_csvs_as_documents(folder_path):
     documents = [Document(page_content=text, metadata={"source": "통합 CSV"})]
     return documents, merged_df
 
-FOLDER_PATH = "./data"
+FOLDER_PATH = "data"
 docs, df = load_csvs_as_documents(FOLDER_PATH)
 all_docs = pdf_docs + docs
 
