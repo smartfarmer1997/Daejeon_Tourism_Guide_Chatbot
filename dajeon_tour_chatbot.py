@@ -2,7 +2,6 @@ import os
 import streamlit as st
 import pandas as pd
 import shutil
-import sqlite3
 
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
