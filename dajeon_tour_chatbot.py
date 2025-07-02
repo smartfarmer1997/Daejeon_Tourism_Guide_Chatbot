@@ -18,15 +18,6 @@ from langchain_community.chat_message_histories.streamlit import StreamlitChatMe
 from langchain_core.documents import Document
 from openai import OpenAI
 
-#Chroma tenant 오류 방지 위한 코드
-import chromadb
-chromadb.api.client.SharedSystemClient.clear_system_cache()
-
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysplite3')
-
-from langchain_chroma import Chroma
 
 # 오픈AI API 키 설정
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
