@@ -15,8 +15,6 @@ from langchain_community.chat_message_histories.streamlit import StreamlitChatMe
 from langchain_core.documents import Document
 from openai import OpenAI
 
-import sqlite3
-
 #Chroma tenant 오류 방지 위한 코드
 import chromadb
 chromadb.api.client.SharedSystemClient.clear_system_cache()
