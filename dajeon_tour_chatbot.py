@@ -31,6 +31,8 @@ with st.sidebar:
     uploaded_pdf = st.file_uploader("PDF 파일을 업로드하세요", type=["pdf"])
 
 # 📄 PDF 로딩 및 벡터 디렉토리 지정
+default_pdf_path = os.path.join("data", "꿀잼도시대전가이드북_웹배포용.pdf")
+
 if uploaded_pdf:
     temp_path = os.path.join("data", uploaded_pdf.name)
     with open(temp_path, "wb") as f:
@@ -39,10 +41,13 @@ if uploaded_pdf:
     pdf_docs = pdf_loader.load()
     file_key = uploaded_pdf.name.replace(".pdf", "").replace(" ", "_")
     persist_directory = f"./chroma_db_{file_key}"
-else:
-    default_pdf_path = os.path.join("data", "꿀잼도시대전가이드북_웹배포용.pdf")
+elif os.path.exists(default_pdf_path):
     pdf_loader = PyPDFLoader(default_pdf_path)
     pdf_docs = pdf_loader.load()
+    persist_directory = "./chroma_db_default"
+else:
+    st.warning("❗ PDF 파일이 없습니다. 사이드바에서 업로드해주세요.")
+    pdf_docs = []
     persist_directory = "./chroma_db_default"
 
 # 📊 CSV 로드
