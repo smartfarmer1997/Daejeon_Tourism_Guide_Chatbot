@@ -91,7 +91,11 @@ def create_vector_store(_docs, persist_directory):
 
 def get_vector_store(_docs, persist_directory):
     if os.path.exists(persist_directory):
-        return FAISS.load_local(persist_directory, OpenAIEmbeddings(model="text-embedding-3-small"))
+        return FAISS.load_local(
+    persist_directory,
+    OpenAIEmbeddings(model="text-embedding-3-small"),
+    allow_dangerous_deserialization=True
+)
     else:
         return create_vector_store(_docs, persist_directory)
 
