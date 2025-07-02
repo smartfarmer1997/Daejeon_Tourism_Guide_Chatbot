@@ -21,10 +21,6 @@ from openai import OpenAI
 import chromadb
 chromadb.api.client.SharedSystemClient.clear_system_cache()
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysplite3')
-
 from langchain_chroma import Chroma
 
 from chromadb.config import Settings
@@ -85,18 +81,25 @@ all_docs = pdf_docs + docs
 def create_vector_store(_docs, persist_directory):
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     split_docs = splitter.split_documents(_docs)
+
+    client_settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_directory)
+
     vectorstore = Chroma.from_documents(
         split_docs,
         OpenAIEmbeddings(model="text-embedding-3-small"),
-        persist_directory=persist_directory
+        persist_directory=persist_directory,
+        client_settings=client_settings
     )
     return vectorstore
 
 def get_vector_store(_docs, persist_directory):
+    client_settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_directory)
+
     if os.path.exists(persist_directory):
         return Chroma(
             persist_directory=persist_directory,
-            embedding_function=OpenAIEmbeddings(model="text-embedding-3-small")
+            embedding_function=OpenAIEmbeddings(model="text-embedding-3-small"),
+            client_settings=client_settings  # ✅ 반드시 포함
         )
     else:
         return create_vector_store(_docs, persist_directory)
