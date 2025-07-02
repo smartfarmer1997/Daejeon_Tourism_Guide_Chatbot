@@ -1,4 +1,3 @@
-
 import os
 import streamlit as st
 import pandas as pd
@@ -17,6 +16,15 @@ from langchain_core.documents import Document
 from openai import OpenAI
 
 import sqlite3
+
+#Chroma tenant 오류 방지 위한 코드
+import chromadb
+chromadb.api.client.SharedSystemClient.clear_system_cache()
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysplite3')
+
 from langchain_chroma import Chroma
 
 # 오픈AI API 키 설정
