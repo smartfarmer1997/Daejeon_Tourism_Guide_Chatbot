@@ -25,6 +25,17 @@ sys.modules['sqlite3'] = sys.modules.pop('pysplite3')
 
 from langchain_chroma import Chroma
 
+from chromadb.config import Settings
+
+client_settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_directory)
+
+vectorstore = Chroma.from_documents(
+    split_docs,
+    OpenAIEmbeddings(model="text-embedding-3-small"),
+    persist_directory=persist_directory,
+    client_settings=client_settings
+)
+
 # 오픈AI API 키 설정
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
