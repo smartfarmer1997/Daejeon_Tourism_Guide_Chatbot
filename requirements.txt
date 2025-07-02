@@ -6,7 +6,6 @@ langchain-openai>=0.1.6
 langchain-community>=0.0.33
 langchain-core>=0.1.52
 langchain-chroma>=0.0.8
-chromadb>=0.4.24
 duckdb>=0.9.2
 tiktoken>=0.5.1
 pypdf>=3.15.5
